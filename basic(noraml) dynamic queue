@@ -1,0 +1,115 @@
+// Basic(normal) Dynamic Queue
+
+#include <iostream>
+using namespace std;
+
+class Queue {
+private:
+    int* arr;
+    int front, rear, size, capacity;
+
+public:
+    Queue(int cap) {
+        capacity = cap;
+        size = 0;
+        arr = new int[capacity];
+        front = 0;
+        rear = -1;
+    }
+
+    void enqueue(int data) {
+        if (isFull()) {
+            cout << "Queue is full\n";
+            return;
+        }
+
+        rear++;
+        arr[rear] = data;
+        size++;
+    }
+
+    void dequeue() {
+        if (isEmpty()) {
+            cout << "Queue is empty\n";
+            return;
+        }
+
+        front++;
+        size--;
+    }
+
+    int frontElement() {
+        if (isEmpty()) {
+            cout << "Queue is empty\n";
+            return -1;
+        }
+
+        return arr[front];
+    }
+
+    bool isFull() {
+        return size == capacity;
+    }
+
+    bool isEmpty() {
+        return size == 0;
+    }
+
+    void display() {
+        if (isEmpty()) {
+            cout << "Queue is empty\n";
+            return;
+        }
+
+        for (int i = front; i <= rear; i++) {
+            cout << arr[i] << " ";
+        }
+
+        cout << "\n";
+    }
+
+    ~Queue() {
+        delete[] arr;
+    }
+};
+
+int main() {
+    Queue q(7);
+
+    q.enqueue(15);
+    q.enqueue(25);
+    q.enqueue(35);
+
+    q.display();                    // 15 25 35
+
+    cout << "Front element: "
+         << q.frontElement() << "\n"; // 15
+
+    q.dequeue();
+
+    q.display();                    // 25 35
+
+    q.enqueue(45);
+    q.enqueue(55);
+
+    q.display();                    // 25 35 45 55
+    q.enqueue(65);
+    q.enqueue(75);
+
+    q.display();
+
+    return 0;
+}
+output:-
+15 25 35 
+Front element: 15
+25 35 
+25 35 45 55 
+25 35 45 55 65 75
+//logic
+//Queue FIFO (First In First Out) principle follow karti hai.
+enqueue() rear side par new element add karta hai, 
+aur dequeue() front side se element remove karta hai.
+Dynamic array new se memory allocate karta hai.
+size current elements count karta hai,
+jabki front aur rear positions ko manage karte hain.
